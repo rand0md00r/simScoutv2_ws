@@ -1,4 +1,5 @@
 # simScoutv2_ws
+#ubuntu18.04 melodic
 
 1.下载
 
