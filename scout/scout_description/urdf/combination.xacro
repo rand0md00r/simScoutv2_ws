@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="example">
+  <xacro:arg name="gpu" default="false"/>
+  <xacro:property name="gpu" value="$(arg gpu)" />
+  <xacro:arg name="organize_cloud" default="false"/>
+  <xacro:property name="organize_cloud" value="$(arg organize_cloud)" />
+
+	<!-- include -->
+	<xacro:include filename="$(find scout_description)/urdf/inertial.xacro" /><!--惯性矩阵计算模块-->+
+	<xacro:include filename="$(find scout_description)/urdf/scout_v2.xacro" /><!--底盘模块-->
+  <!--<xacro:include filename="$(find scout_description)/urdf/laser.xacro" />单线激光雷达-->
+  <!--<xacro:include filename="$(find scout_description)/urdf/sensor_laser.xacro" />单线激光雷达-->
+	<xacro:include filename="$(find scout_description)/urdf/camera.xacro" /><!--相机模块-->
+  <xacro:include filename="$(find scout_description)/urdf/sensor_camera.xacro" /><!--相机感知模块-->
+  <xacro:include filename="$(find scout_description)/urdf/VLP-16.urdf.xacro"/><!--16线激光雷达模块-->
+  <xacro:VLP-16 out_parent="base_link" laser_name="velodyne" topic="/velodyne_points" organize_cloud="${organize_cloud}" hz="10" samples="440" gpu="${gpu}">
+    <origin xyz="0 0 0.4" rpy="0 0 0" />
+  </xacro:VLP-16>
+</robot>
