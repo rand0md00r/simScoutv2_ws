@@ -2,15 +2,22 @@
 <!--小车底盘添加雷达-->
 <robot name="my_laser" xmlns:xacro="http://wiki.ros.org/xacro">
 
-    <!-- 雷达支架 -->
+    <!-- 雷达及支架属性 -->
+    <xacro:property name="laser_length" value="0.05" /> <!-- 雷达长度 -->
+    <xacro:property name="laser_radius" value="0.07" /> <!-- 雷达半径 -->
+    <xacro:property name="laser_x" value="0.0" /> <!-- 雷达安装的x坐标 -->
+    <xacro:property name="laser_y" value="0.0" /> <!-- 雷达安装的y坐标 -->
+    <xacro:property name="laser_z" value="0.175" /> <!-- 雷达安装的z坐标:支架高度 / 2 + 雷达高度 / 2  -->
+    <xacro:property name="laser_m" value="0.1" /> <!-- 雷达质量 -->
+
     <xacro:property name="support_length" value="0.30" /> <!-- 支架长度 -->
     <xacro:property name="support_radius" value="0.025" /> <!-- 支架半径 -->
     <xacro:property name="support_x_size" value="0.0" /> <!-- 支架安装的x坐标 -->
     <xacro:property name="support_y_size" value="0.0" /> <!-- 支架安装的y坐标 -->
     <xacro:property name="support_z_size" value="0.255" /> <!-- 支架安装的z坐标:底盘高度 / 2 + 支架高度 / 2  -->
-
     <xacro:property name="support_m" value="0.02" /> <!-- 支架质量 -->
 
+    <!-- 雷达支架 -->
     <link name="support">
         <visual>
             <geometry>
@@ -27,9 +34,7 @@
             </geometry>
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         </collision>
-
         <xacro:cylinder_inertial_matrix m="${support_m}" r="${support_radius}" h="${support_length}" />
-        
     </link>
 
     <joint name="support2base_link" type="fixed">
@@ -37,21 +42,8 @@
         <child link="support" />
         <origin xyz="${support_x_size} ${support_y_size} ${support_z_size}" />
     </joint>
-    <gazebo reference="support">
-        <material>Gazebo/White</material>
-    </gazebo>
 
-
-    <!-- 雷达属性 -->
-    <xacro:property name="laser_length" value="0.05" /> <!-- 雷达长度 -->
-    <xacro:property name="laser_radius" value="0.07" /> <!-- 雷达半径 -->
-    <xacro:property name="laser_x" value="0.0" /> <!-- 雷达安装的x坐标 -->
-    <xacro:property name="laser_y" value="0.0" /> <!-- 雷达安装的y坐标 -->
-    <xacro:property name="laser_z" value="0.175" /> <!-- 雷达安装的z坐标:支架高度 / 2 + 雷达高度 / 2  -->
-
-    <xacro:property name="laser_m" value="0.1" /> <!-- 雷达质量 -->
-    
-    <!-- 雷达关节以及link -->
+    <!-- 雷达 -->
     <link name="laser">
         <visual>
             <geometry>
@@ -67,7 +59,6 @@
             <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
         </collision>
         <xacro:cylinder_inertial_matrix m="${laser_m}" r="${laser_radius}" h="${laser_length}" />
-        
     </link>
 
     <joint name="laser2support" type="fixed">
@@ -75,7 +66,37 @@
         <child link="laser" />
         <origin xyz="${laser_x} ${laser_y} ${laser_z}" />
     </joint>
+
+	<!-- gazebo雷达插件配置 -->
     <gazebo reference="laser">
-        <material>Gazebo/Black</material>
+        <sensor type="ray" name="rplidar">
+        <pose>0 0 0 0 0 0</pose>
+        <visualize>true</visualize>
+        <update_rate>5.5</update_rate>
+            <ray>
+                <scan>
+                <horizontal>
+                    <samples>360</samples>
+                    <resolution>1</resolution>
+                    <min_angle>-3</min_angle>
+                    <max_angle>3</max_angle>
+                </horizontal>
+                </scan>
+                <range>
+                <min>0.10</min>
+                <max>30.0</max>
+                <resolution>0.01</resolution>
+                </range>
+                <noise>
+                <type>gaussian</type>
+                <mean>0.0</mean>
+                <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <plugin name="gazebo_rplidar" filename="libgazebo_ros_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>laser</frameName>
+            </plugin>
+        </sensor>
     </gazebo>
 </robot>

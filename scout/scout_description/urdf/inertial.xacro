@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <robot name="base" xmlns:xacro="http://wiki.ros.org/xacro">
     <!-- Macro for inertia matrix -->
     <xacro:macro name="sphere_inertial_matrix" params="m r">
