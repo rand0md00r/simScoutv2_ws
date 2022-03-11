@@ -18,6 +18,7 @@
     <xacro:property name="wheel_vertical_offset" value="-0.0702" />
     <xacro:property name="wheel_length" value="1.1653e-01" />
     <xacro:property name="wheel_radius" value="1.6459e-01" />
+    <xacro:property name="mass" value="5000" />
 
      <!-- include -->
     <xacro:include filename="$(find scout_description)/urdf/scout_wheel_type1.xacro" />
@@ -55,12 +56,14 @@
 
     <link name="inertial_link">
         <inertial>
-            <mass value="50" />
+            <mass value="${mass}" />
             <!-- <mass value="50" /> -->
             <!-- <origin xyz="-0.00065 -0.085 0.062" />
             <inertia ixx="0.6022" ixy="-0.02364" ixz="-0.1197" iyy="1.7386" iyz="-0.001544" izz="2.0296" /> -->
             <origin xyz="0.0 0.0 0.0" />
-            <inertia ixx="2.288641" ixy="0" ixz="0" iyy="5.103976" iyz="0" izz="3.431465" />
+            <inertia ixx="${mass*(base_z_size*base_z_size + base_x_size*base_x_size)/12}" ixy = "0" ixz = "0"
+                   iyy="${mass*(base_y_size*base_y_size + base_x_size*base_x_size)/12}" iyz= "0"
+                   izz="${mass*(base_y_size*base_y_size + base_z_size*base_z_size)/12}" />
         </inertial>
     </link>
 

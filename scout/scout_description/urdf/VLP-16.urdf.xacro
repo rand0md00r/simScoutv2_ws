@@ -74,6 +74,9 @@
             <inertia ixx="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" ixy="0" ixz="0"
                     iyy="${(0.83 * (3.0*0.0516*0.0516 + 0.0717*0.0717)) / 12.0}" iyz="0"
                     izz="${0.5 * 0.83 * (0.0516*0.0516)}"/>
+            <inertia ixx="${laser_m*(3*laser_radius*laser_radius+laser_length*laser_length)/12}" ixy = "0" ixz = "0"
+                    iyy="${laser_m*(3*laser_radius*laser_radius+laser_length*laser_length)/12}" iyz = "0"
+                    izz="${laser_m*laser_radius*laser_radius/2}" /> 
         </inertial>
       <visual>
         <geometry>

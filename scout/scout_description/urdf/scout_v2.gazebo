@@ -118,7 +118,7 @@ Reference:
     	<rightRearJoint>rear_right_wheel</rightRearJoint>
     	<wheelSeparation>${track}</wheelSeparation>
     	<wheelDiameter>${wheel_radius * 2}</wheelDiameter>
-    	<torque>1000</torque>
+    	<torque>20</torque>
 
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odmo</odometryTopic>
