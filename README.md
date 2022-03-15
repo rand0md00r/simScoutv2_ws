@@ -27,10 +27,10 @@
 
 加入以下代码：
 
-        import sys                                                   #原有
-        import re                                                      #原有
-        import warnings                                       #原有
-        reload(sys)                                                  #添加
+        import sys                             #原有
+        import re                              #原有
+        import warnings                        #原有
+        reload(sys)                            #添加
         sys.setdefaultencoding("utf-8")        #添加
 
 
